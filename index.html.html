@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Career Pathways — Guwahati</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --black: #0e0e0e;
+      --white: #f7f5f2;
+      --accent: #c8773a;
+      --accent-light: #f0e6da;
+      --mid: #6b6560;
+      --border: #ddd9d4;
+      --card-bg: #ffffff;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--white);
+      color: var(--black);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 6vw;
+      height: 68px;
+      background: rgba(247,245,242,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.25rem;
+      letter-spacing: -0.02em;
+      color: var(--black);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--mid);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--black); }
+    .nav-cta {
+      background: var(--black);
+      color: var(--white) !important;
+      padding: 0.45rem 1.2rem;
+      border-radius: 4px;
+      font-weight: 500 !important;
+      transition: background 0.2s !important;
+    }
+    .nav-cta:hover { background: var(--accent) !important; color: var(--white) !important; }
+
+    /* ── PAGES ── */
+    .page {
+      min-height: 100vh;
+      padding: 120px 6vw 80px;
+      display: none;
+    }
+    .page.active { display: block; }
+
+    /* ── HERO / HOME ── */
+    #home { padding-top: 0; display: none; }
+    #home.active { display: flex; flex-direction: column; }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 6vw;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -20%; right: -10%;
+      width: 55vw; height: 55vw;
+      border-radius: 50%;
+      background: radial-gradient(circle, #f0e6da 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.1s forwards;
+    }
+
+    .hero-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(3rem, 7vw, 6rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      color: var(--black);
+      max-width: 13ch;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.25s forwards;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-sub {
+      margin-top: 1.8rem;
+      font-size: 1.05rem;
+      color: var(--mid);
+      max-width: 44ch;
+      font-weight: 300;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.4s forwards;
+    }
+
+    .hero-actions {
+      display: flex; gap: 1rem; align-items: center;
+      margin-top: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.55s forwards;
+    }
+
+    .btn-primary {
+      background: var(--black);
+      color: var(--white);
+      padding: 0.85rem 2rem;
+      border-radius: 4px;
+      font-size: 0.92rem;
+      font-weight: 500;
+      text-decoration: none;
+      border: none; cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: var(--accent); transform: translateY(-1px); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--black);
+      padding: 0.85rem 2rem;
+      border-radius: 4px;
+      font-size: 0.92rem;
+      font-weight: 500;
+      text-decoration: none;
+      border: 1.5px solid var(--border);
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.15s;
+      display: inline-block;
+    }
+    .btn-ghost:hover { border-color: var(--black); transform: translateY(-1px); }
+
+    .hero-stats {
+      display: flex; gap: 3rem;
+      margin-top: 5rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid var(--border);
+      opacity: 0;
+      animation: fadeUp 0.7s 0.7s forwards;
+    }
+    .stat-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.2rem;
+      color: var(--black);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--mid);
+      margin-top: 0.3rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* Feature strip */
+    .features-strip {
+      padding: 70px 6vw;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1px;
+      background: var(--border);
+    }
+    .feature-item {
+      background: var(--white);
+      padding: 2.5rem 2rem;
+    }
+    .feature-icon {
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+    }
+    .feature-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.15rem;
+      margin-bottom: 0.5rem;
+    }
+    .feature-desc {
+      font-size: 0.88rem;
+      color: var(--mid);
+      line-height: 1.7;
+    }
+
+    /* ── SECTION HEADER ── */
+    .section-header { margin-bottom: 3rem; }
+    .section-eyebrow {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+    .section-subtitle {
+      font-size: 1rem;
+      color: var(--mid);
+      margin-top: 0.75rem;
+      max-width: 55ch;
+      font-weight: 300;
+    }
+
+    /* ── COURSES PAGE ── */
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .course-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .course-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+    }
+    .course-thumb {
+      height: 160px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem;
+      background: var(--accent-light);
+    }
+    .course-body { padding: 1.5rem; }
+    .course-tag {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--accent-light);
+      padding: 0.25rem 0.6rem;
+      border-radius: 3px;
+      display: inline-block;
+      margin-bottom: 0.8rem;
+    }
+    .course-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+    .course-desc {
+      font-size: 0.87rem;
+      color: var(--mid);
+      margin-bottom: 1.2rem;
+      line-height: 1.7;
+    }
+    .course-meta {
+      display: flex; gap: 1.2rem;
+      font-size: 0.8rem;
+      color: var(--mid);
+      border-top: 1px solid var(--border);
+      padding-top: 1rem;
+    }
+    .course-meta span::before { margin-right: 0.3rem; }
+
+    /* ── ABOUT PAGE ── */
+    .about-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5vw;
+      align-items: start;
+    }
+    .about-text p {
+      color: var(--mid);
+      margin-bottom: 1.2rem;
+      line-height: 1.85;
+      font-weight: 300;
+    }
+    .about-highlights {
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .highlight-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1.2rem;
+      border: 1px solid var(--border);
+      border-radius: 5px;
+    }
+    .highlight-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+      margin-top: 5px;
+    }
+    .highlight-text { font-size: 0.9rem; color: var(--mid); line-height: 1.6; }
+    .highlight-text strong { color: var(--black); display: block; font-size: 0.95rem; margin-bottom: 0.2rem; }
+
+    .about-image-block {
+      position: sticky; top: 100px;
+    }
+    .about-card-big {
+      background: var(--black);
+      color: var(--white);
+      border-radius: 8px;
+      padding: 3rem 2.5rem;
+      margin-bottom: 1.2rem;
+    }
+    .about-card-big .num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 4rem;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+    .about-card-big p { font-size: 0.9rem; color: rgba(247,245,242,0.65); line-height: 1.6; }
+    .about-card-small {
+      background: var(--accent-light);
+      border-radius: 6px;
+      padding: 1.5rem 2rem;
+    }
+    .about-card-small p { font-size: 0.9rem; color: var(--black); line-height: 1.6; }
+    .about-card-small strong { font-family: 'DM Serif Display', serif; font-size: 1.05rem; }
+
+    /* ── CONTACT PAGE ── */
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 5vw;
+      align-items: start;
+    }
+    .contact-info-block { position: sticky; top: 100px; }
+    .contact-info-block h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+    .contact-info-block p {
+      color: var(--mid);
+      font-size: 0.92rem;
+      line-height: 1.8;
+      margin-bottom: 2rem;
+      font-weight: 300;
+    }
+    .contact-detail {
+      display: flex; gap: 0.8rem;
+      margin-bottom: 1.2rem;
+      font-size: 0.9rem;
+    }
+    .contact-detail-icon {
+      width: 36px; height: 36px;
+      background: var(--accent-light);
+      border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .contact-detail-label { font-size: 0.75rem; color: var(--mid); text-transform: uppercase; letter-spacing: 0.06em; }
+    .contact-detail-val { color: var(--black); font-weight: 500; margin-top: 0.1rem; }
+
+    /* Form */
+    .form-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 2.5rem;
+    }
+    .form-row { margin-bottom: 1.4rem; }
+    .form-row label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 0.5rem;
+    }
+    .form-row input,
+    .form-row select,
+    .form-row textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.75rem 1rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.92rem;
+      color: var(--black);
+      background: var(--white);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-row input:focus,
+    .form-row select:focus,
+    .form-row textarea:focus { border-color: var(--accent); }
+    .form-row textarea { resize: vertical; min-height: 110px; }
+    .form-submit {
+      width: 100%;
+      background: var(--black);
+      color: var(--white);
+      border: none; cursor: pointer;
+      padding: 1rem;
+      border-radius: 4px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+    .form-submit:hover { background: var(--accent); }
+    .form-note {
+      font-size: 0.78rem;
+      color: var(--mid);
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    /* Success msg */
+    .success-msg {
+      display: none;
+      text-align: center;
+      padding: 2rem;
+    }
+    .success-msg .check { font-size: 2.5rem; margin-bottom: 1rem; }
+    .success-msg h4 { font-family: 'DM Serif Display', serif; font-size: 1.4rem; margin-bottom: 0.5rem; }
+    .success-msg p { color: var(--mid); font-size: 0.9rem; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 6vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.82rem;
+      color: var(--mid);
+    }
+    footer a { color: var(--mid); text-decoration: none; }
+    footer a:hover { color: var(--accent); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero-stats { gap: 1.5rem; }
+      .about-layout, .contact-layout { grid-template-columns: 1fr; }
+      .about-image-block { position: static; }
+      .contact-info-block { position: static; }
+      .form-card { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Career<span>.</span>Pathways</a>
+  <ul class="nav-links">
+    <li><a href="#" class="active" onclick="showPage('home',this)">Home</a></li>
+    <li><a href="#" onclick="showPage('courses',this)">Courses</a></li>
+    <li><a href="#" onclick="showPage('about',this)">About</a></li>
+    <li><a href="#" onclick="showPage('contact',this)" class="nav-cta">Book a Session</a></li>
+  </ul>
+</nav>
+
+<!-- ══════════════ HOME PAGE ══════════════ -->
+<div id="home" class="page active">
+  <section class="hero">
+    <p class="hero-eyebrow">Guwahati's Creative Career Studio</p>
+    <h1 class="hero-title">Design your <em>future</em> with Adobe.</h1>
+    <p class="hero-sub">Professional Adobe Suite training and career consultancy for students in Guwahati — graphic design, video, UI/UX, and beyond.</p>
+    <div class="hero-actions">
+      <a href="#" class="btn-primary" onclick="showPage('courses', document.querySelector('.nav-links a:nth-child(2)'))">Explore Courses</a>
+      <a href="#" class="btn-ghost" onclick="showPage('about', document.querySelector('.nav-links a:nth-child(3)'))">Who We Are</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">200+</div>
+        <div class="stat-label">Students Trained</div>
+      </div>
+      <div>
+        <div class="stat-num">6</div>
+        <div class="stat-label">Adobe Programs</div>
+      </div>
+      <div>
+        <div class="stat-num">92%</div>
+        <div class="stat-label">Placement Rate</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="features-strip">
+    <div class="feature-item">
+      <div class="feature-icon">🎓</div>
+      <div class="feature-title">Expert-Led Training</div>
+      <div class="feature-desc">Certified instructors with industry experience in design and media production.</div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🗺️</div>
+      <div class="feature-title">Career Roadmapping</div>
+      <div class="feature-desc">Personalised consultancy sessions to map your skills to real job opportunities.</div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">💼</div>
+      <div class="feature-title">Portfolio Building</div>
+      <div class="feature-desc">Build a professional portfolio that stands out to studios and agencies.</div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🤝</div>
+      <div class="feature-title">Local Network</div>
+      <div class="feature-desc">Connect with Guwahati's growing creative community and hiring partners.</div>
+    </div>
+  </div>
+
+  <footer>
+    <span>© 2025 Career Pathways, Guwahati</span>
+    <span>Adobe Authorised Training Partner</span>
+  </footer>
+</div>
+
+<!-- ══════════════ COURSES PAGE ══════════════ -->
+<div id="courses" class="page">
+  <div class="section-header">
+    <p class="section-eyebrow">What We Teach</p>
+    <h2 class="section-title">Adobe Suite Courses</h2>
+    <p class="section-subtitle">Industry-standard programs taught by certified professionals — from beginner to advanced.</p>
+  </div>
+
+  <div class="courses-grid">
+    <div class="course-card">
+      <div class="course-thumb">🎨</div>
+      <div class="course-body">
+        <span class="course-tag">Design</span>
+        <div class="course-name">Adobe Photoshop</div>
+        <div class="course-desc">Master photo editing, compositing, and digital painting. From retouching to creative artwork.</div>
+        <div class="course-meta">
+          <span>⏱ 6 Weeks</span>
+          <span>📶 Beginner–Advanced</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="course-card">
+      <div class="course-thumb">✏️</div>
+      <div class="course-body">
+        <span class="course-tag">Illustration</span>
+        <div class="course-name">Adobe Illustrator</div>
+        <div class="course-desc">Vector art, logo design, brand identity, and print graphics for professional use.</div>
+        <div class="course-meta">
+          <span>⏱ 6 Weeks</span>
+          <span>📶 Beginner–Advanced</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="course-card">
+      <div class="course-thumb">📐</div>
+      <div class="course-body">
+        <span class="course-tag">Print & Layout</span>
+        <div class="course-name">Adobe InDesign</div>
+        <div class="course-desc">Publication design, brochures, magazines, and editorial layouts for print and digital.</div>
+        <div class="course-meta">
+          <span>⏱ 4 Weeks</span>
+          <span>📶 Intermediate</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="course-card">
+      <div class="course-thumb">🎬</div>
+      <div class="course-body">
+        <span class="course-tag">Video</span>
+        <div class="course-name">Adobe Premiere Pro</div>
+        <div class="course-desc">Professional video editing, colour grading, and storytelling for social and broadcast media.</div>
+        <div class="course-meta">
+          <span>⏱ 8 Weeks</span>
+          <span>📶 Beginner–Advanced</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="course-card">
+      <div class="course-thumb">✨</div>
+      <div class="course-body">
+        <span class="course-tag">Motion</span>
+        <div class="course-name">Adobe After Effects</div>
+        <div class="course-desc">Motion graphics, VFX, animation, and compositing for films and digital campaigns.</div>
+        <div class="course-meta">
+          <span>⏱ 8 Weeks</span>
+          <span>📶 Intermediate</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="course-card">
+      <div class="course-thumb">📱</div>
+      <div class="course-body">
+        <span class="course-tag">UI/UX</span>
+        <div class="course-name">Adobe XD</div>
+        <div class="course-desc">App and web interface design, wireframing, prototyping, and user experience principles.</div>
+        <div class="course-meta">
+          <span>⏱ 6 Weeks</span>
+          <span>📶 Beginner–Advanced</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:3rem; padding:2.5rem; background:var(--black); border-radius:8px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1.5rem;">
+    <div>
+      <p style="font-family:'DM Serif Display',serif; font-size:1.5rem; color:var(--white); margin-bottom:0.4rem;">Not sure which course to pick?</p>
+      <p style="font-size:0.9rem; color:rgba(247,245,242,0.6);">Book a free 20-minute career consultation and we'll guide you.</p>
+    </div>
+    <a href="#" class="btn-primary" style="background:var(--accent);" onclick="showPage('contact', document.querySelector('.nav-links a:nth-child(4)'))">Book Free Consultation</a>
+  </div>
+
+  <footer style="margin-top:3rem;">
+    <span>© 2025 Career Pathways, Guwahati</span>
+    <span>Adobe Authorised Training Partner</span>
+  </footer>
+</div>
+
+<!-- ══════════════ ABOUT PAGE ══════════════ -->
+<div id="about" class="page">
+  <div class="section-header">
+    <p class="section-eyebrow">Our Story</p>
+    <h2 class="section-title">Built for students<br>in Guwahati.</h2>
+  </div>
+
+  <div class="about-layout">
+    <div class="about-text">
+      <p>Career Pathways was founded with a simple belief: that every student in Guwahati deserves access to world-class creative education — without having to leave Assam.</p>
+      <p>We specialise in Adobe Creative Suite training, combining hands-on technical skill-building with dedicated career consultancy. Whether you're a complete beginner or looking to sharpen existing skills, our programmes are designed around your goals.</p>
+      <p>Our approach is straightforward: small batch sizes, certified instructors, real-world projects, and honest guidance on career paths — from freelancing to joining studios, agencies, and media companies.</p>
+
+      <div class="about-highlights">
+        <div class="highlight-row">
+          <div class="highlight-dot"></div>
+          <div class="highlight-text">
+            <strong>Certified Instructors</strong>
+            Adobe-certified professionals with active industry experience in design and media.
+          </div>
+        </div>
+        <div class="highlight-row">
+          <div class="highlight-dot"></div>
+          <div class="highlight-text">
+            <strong>Small Batch Sizes</strong>
+            Maximum 10 students per batch so every learner gets personal attention.
+          </div>
+        </div>
+        <div class="highlight-row">
+          <div class="highlight-dot"></div>
+          <div class="highlight-text">
+            <strong>Career Consultancy Included</strong>
+            Every course includes one-on-one career sessions, resume review, and portfolio guidance.
+          </div>
+        </div>
+        <div class="highlight-row">
+          <div class="highlight-dot"></div>
+          <div class="highlight-text">
+            <strong>Local Hiring Network</strong>
+            Partnerships with design studios and media companies across Northeast India.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-image-block">
+      <div class="about-card-big">
+        <div class="num">200+</div>
+        <p>Students have completed courses at Career Pathways since 2021, many now working as designers, editors, and creative directors.</p>
+      </div>
+      <div class="about-card-small">
+        <p><strong>📍 Located in Guwahati, Assam</strong><br>Serving students across Northeast India with both in-person and flexible hybrid learning options.</p>
+      </div>
+      <div class="about-card-small" style="margin-top:1rem; background:var(--border);">
+        <p><strong>🕐 Office Hours</strong><br>Mon–Sat: 9:00 AM – 7:00 PM<br>Sunday: By appointment only</p>
+      </div>
+    </div>
+  </div>
+
+  <footer style="margin-top:4rem;">
+    <span>© 2025 Career Pathways, Guwahati</span>
+    <span>Adobe Authorised Training Partner</span>
+  </footer>
+</div>
+
+<!-- ══════════════ CONTACT PAGE ══════════════ -->
+<div id="contact" class="page">
+  <div class="section-header">
+    <p class="section-eyebrow">Get in Touch</p>
+    <h2 class="section-title">Book a Free Session</h2>
+    <p class="section-subtitle">Talk to a counsellor, get your questions answered, and find the right path for your career.</p>
+  </div>
+
+  <div class="contact-layout">
+    <div class="contact-info-block">
+      <h3>Let's talk about your future.</h3>
+      <p>Whether you're unsure which course suits you, want to discuss fees, or simply have questions — we're here. Book a free 20-minute consultation or drop us a message.</p>
+
+      <div class="contact-detail">
+        <div class="contact-detail-icon">📍</div>
+        <div>
+          <div class="contact-detail-label">Address</div>
+          <div class="contact-detail-val">GS Road, Ulubari, Guwahati — 781007, Assam</div>
+        </div>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-detail-icon">📞</div>
+        <div>
+          <div class="contact-detail-label">Phone</div>
+          <div class="contact-detail-val">+91 98765 43210</div>
+        </div>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-detail-icon">✉️</div>
+        <div>
+          <div class="contact-detail-label">Email</div>
+          <div class="contact-detail-val">hello@careerpathways.in</div>
+        </div>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-detail-icon">🕐</div>
+        <div>
+          <div class="contact-detail-label">Hours</div>
+          <div class="contact-detail-val">Mon–Sat, 9 AM – 7 PM</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card" id="form-card">
+      <div id="form-inner">
+        <div class="form-row">
+          <label>Full Name</label>
+          <input type="text" placeholder="Your name" id="f-name"/>
+        </div>
+        <div class="form-row">
+          <label>Phone Number</label>
+          <input type="tel" placeholder="+91 XXXXX XXXXX" id="f-phone"/>
+        </div>
+        <div class="form-row">
+          <label>Email</label>
+          <input type="email" placeholder="you@email.com" id="f-email"/>
+        </div>
+        <div class="form-row">
+          <label>I'm interested in</label>
+          <select id="f-course">
+            <option value="">Select a course…</option>
+            <option>Adobe Photoshop</option>
+            <option>Adobe Illustrator</option>
+            <option>Adobe InDesign</option>
+            <option>Adobe Premiere Pro</option>
+            <option>Adobe After Effects</option>
+            <option>Adobe XD</option>
+            <option>Not sure — need guidance</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label>Message (optional)</label>
+          <textarea placeholder="Any questions or details you'd like to share…" id="f-msg"></textarea>
+        </div>
+        <button class="form-submit" onclick="submitForm()">Book My Free Session →</button>
+        <p class="form-note">No payment required. We'll contact you within 24 hours.</p>
+      </div>
+      <div class="success-msg" id="success-msg">
+        <div class="check">✅</div>
+        <h4>You're booked in!</h4>
+        <p>Thanks for reaching out. Our team will call you within 24 hours to confirm your free consultation.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer style="margin-top:4rem;">
+    <span>© 2025 Career Pathways, Guwahati</span>
+    <span>Adobe Authorised Training Partner</span>
+  </footer>
+</div>
+
+<script>
+  function showPage(id, el) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+    if (el) el.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function submitForm() {
+    const name = document.getElementById('f-name').value.trim();
+    const phone = document.getElementById('f-phone').value.trim();
+    if (!name || !phone) {
+      alert('Please enter your name and phone number.');
+      return;
+    }
+    document.getElementById('form-inner').style.display = 'none';
+    document.getElementById('success-msg').style.display = 'block';
+  }
+</script>
+</body>
+</html>
